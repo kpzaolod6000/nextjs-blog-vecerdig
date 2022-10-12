@@ -134,7 +134,7 @@ export default function Home() {
 
 
         <footer className={styles.footer}>
-          <Link href="/listTrustStore">
+          <Link href="/generateTable">
             <a className = {styles.text_link} >
               Ver Mozila Trust Store
               <span className={styles.logo}>

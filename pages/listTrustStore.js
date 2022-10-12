@@ -23,7 +23,7 @@ function Readpem({ data }) {
                             <div className={stylesTrust.col_1}>Nro de Serial</div>
                             <div className={stylesTrust.col_1}>Nombre</div>
                             <div className={stylesTrust.col_1}>Validez<p className={stylesTrust._p}>Desde-Hasta</p></div>
-                            <div className={stylesTrust.col_1}>Llava pública<p className={stylesTrust._p}>Algoritmo-Tamaño</p></div>
+                            <div className={stylesTrust.col_1}>Llave pública<p className={stylesTrust._p}>Algoritmo-Tamaño</p></div>
                             <div className={stylesTrust.col_1}>SHA-1</div>
                         </li>
 

@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100;700&display=swap');
+
+/* font-family: 'Noto Sans Mono', monospace; */
+/* *{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+} */
+
+.table__browser {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+._p{  
+	font-size: 0.5em;
+}
+
+._li{
+    border-radius: 4px;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+
+    vertical-align: baseline;
+    text-align: center;
+}
+
+
+.table__browser__header{
+	font-family: 'Noto Sans Mono', monospace;
+    background-color: #95A5A6;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #100C0C;
+}
+
+.table__browser__row {
+    background-color: #2D3142;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.30);
+}
+
+.col_1 {
+    flex-basis: 20%;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.col_2 {
+    position: relative; 
+    flex-basis: 20%;
+    font-weight: bold;
+    font-size: medium;
+    align-self: auto;
+    /* vertical-align: top; */
+    
+    /* display: flex; */
+    /* justify-content:space-around; */
+}
+
+.browser__trust{
+	font-family: 'Noto Sans Mono', monospace;
+	font-size: 18px;
+	text-align: center;
+	padding: 12px 0;
+}
+
+
+.button__home{
+	width: 100%;
+	text-align: center;
+	margin: 15px;
+}
+
+.button-clear__all{
+	font-family: 'Inconsolata', monospace;
+	font-size: 15px;
+	letter-spacing: 1.2px;
+	width: 300px;	
+}
+
+.attribution{
+	display: flex;
+	justify-content: space-evenly;
+	padding: 10px;
+}

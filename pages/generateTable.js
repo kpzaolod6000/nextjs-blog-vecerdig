@@ -13,7 +13,7 @@ import Pagination from '../components/paginationTrust'
 import { paginate } from './paginate'
 
 const Tablemodels = ({data}) => {
-    
+
     const [posts, setPosts] = useState([])
     useEffect(() =>{
         const getPosts = async () =>{
@@ -30,8 +30,8 @@ const Tablemodels = ({data}) => {
     const handlePageChange = (page) => {
         setCurrentPage(page)
     }
-    console.log(useState(1))
-    console.log(currentPage)
+    //console.log(useState(1))
+    //console.log(currentPage)
     
     const PaginatePosts = paginate(posts, currentPage, pageSize)
 
@@ -48,9 +48,11 @@ const Tablemodels = ({data}) => {
                         <tr>
                             <th className={stylesTrust.col_1}>ID</th>
                             <th className={stylesTrust.col_1}>Nro de Serial</th>
-                            <th className={stylesTrust.col_1}>Nombre</th>
+                            <th className={stylesTrust.col_1}>Nombres<p className={stylesTrust._p}>Subject-Issuer</p></th>
                             <th className={stylesTrust.col_1}>Validez<p className={stylesTrust._p}>Desde-Hasta</p></th>
                             <th className={stylesTrust.col_1}>Llave pública<p className={stylesTrust._p}>Algoritmo-Tamaño</p></th>
+                            <th className={stylesTrust.col_1}>Uso de la llave</th>
+                            <th className={stylesTrust.col_1}>OID</th>
                             <th className={stylesTrust.col_1}>SHA-1</th>
                         </tr>
                     </thead>
@@ -61,9 +63,11 @@ const Tablemodels = ({data}) => {
                                 <tr key={post.id}>
                                     <td className={stylesTrust.col_2}>{post.id}</td>
                                     <td className={stylesTrust.col_2}>{post.nmSerial}</td>
-                                    <td className={stylesTrust.col_2}>{post.subject}</td>
+                                    <td className={stylesTrust.col_2}>{post.subject} - {post.issuer}</td>
                                     <td className={stylesTrust.col_2}>{post.validFrom} - {post.validTo}</td>
-                                    <td className={stylesTrust.col_2}>RSA - {post.nmBits}</td>
+                                    <td className={stylesTrust.col_2}>{post.asymKey} - {post.nmBits} <p className={stylesTrust._p}>{post.typeKey}</p></td>
+                                    <td className={stylesTrust.col_2}>{post.usePublicKey}</td>
+                                    <td className={stylesTrust.col_2}>{post.oidPublicKey}</td>
                                     <td className={stylesTrust.col_2}>{post.certSha}</td>                            
                                 </tr>        
                             ))
@@ -86,10 +90,14 @@ const Tablemodels = ({data}) => {
 
 export const getStaticProps = async () => {
     const postsDirectory = path.join(process.cwd(),'public', 'trustStore','MozillaRootsPEM.txt')
-    // const filenames = await fs.readFileSync(postsDirectory)
     let filenames = await fs.readFileSync(postsDirectory)
     let certificateCiphered = []
 
+    const jsonDirectory = path.join(process.cwd(),'pages', 'data','oid.json')
+    const fileJson = await fs.readFileSync(jsonDirectory)
+    const oidObject = JSON.parse(fileJson);
+    
+    
     filenames.toString().split(/\n-----END CERTIFICATE-----/).forEach(function(certificate){
     // do something here with each line
         const certificateCipher = certificate + "\n-----END CERTIFICATE-----"
@@ -99,36 +107,71 @@ export const getStaticProps = async () => {
     
     let x509list = ""
     let result = ""
-    // let certificateDeciphered = []
+    let typePublickey = ""
+    let asymmetricKey = ""
     
     let id = 0
 
     const data = certificateCiphered.map(async (cert) => {
-        // console.log(cert)
-        x509list = new X509Certificate(cert);
+        
+        // read X509 CERTIFICATE
+        x509list = new X509Certificate(cert)
+        //console.log(x509list.publicKey.asymmetricKeyDetails)
+        typePublickey = x509list.publicKey.type
+        asymmetricKey = x509list.publicKey.asymmetricKeyType
+
+        //x509 to object
         result = x509list.toLegacyObject()
-        //console.log(result)
-        const listNameCert = result.subject
-        //console.log(ggg)
-        //console.log((ggg.split(/\n/)))
-        let nameCert = ""
-        listNameCert.split(/\n/).forEach(function(listname){
-            const inToremove = "O="
+
+        // read subject's data
+        const inToremove = "O="
+        const listNameSubject = result.subject
+        let nameSubject = ""
+        listNameSubject.split(/\n/).forEach(function(listname){
+            
             if (listname.includes(inToremove)) {
-                nameCert = listname.replaceAll(inToremove, "");
+                nameSubject = listname.replaceAll(inToremove, "");
             }
         });
 
-        //console.log(nameCert)
+        // read issuer's data
+        const listNameIssuer = result.issuer
+        
+        let nameIssuer = ""
+        listNameIssuer.split(/\n/).forEach(function(listname){
+            if (listname.includes(inToremove)) {
+                nameIssuer = listname.replaceAll(inToremove, "");
+            }
+        });
+
+        //compare asymmetric key for return OIDs
+        let useKey = ""
+        let oidKey = ""
+        oidObject.map(async (oid) =>{
+
+            if(asymmetricKey.toUpperCase() == oid.Algorithm){
+                useKey = oid.Type
+                oidKey = oid.OID
+            }
+        })
+        //console.log(useKey)
+        //console.log(oidKey)
+
+        //console.log(nameIssuer)
         id++
         return {
             id: id,
-            subject: nameCert,
+            subject: nameSubject,
+            issuer: nameIssuer,
             nmSerial: result.serialNumber,
             validFrom: result.valid_from,
             validTo: result.valid_to,
             certSha: result.fingerprint,
+            asymKey: asymmetricKey,
+            usePublicKey: useKey,
+            oidPublicKey: oidKey,
             nmBits: result.bits,
+            typeKey: typePublickey,
             pubKey: toString(result.pubkey),
         }
         //certificateDeciphered.push(result)

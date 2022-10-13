@@ -77,7 +77,7 @@ export const getStaticProps = async () => {
         // console.log(cert)
         x509list = new X509Certificate(cert);
         result = x509list.toLegacyObject()
-        //console.log(result)
+        console.log(result)
         const listNameCert = result.subject
         //console.log(ggg)
         //console.log((ggg.split(/\n/)))

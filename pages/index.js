@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from "next/link";
-//import Router, { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import styles from '../styles/Home.module.css'
 import validate_url from './validate_url'
@@ -25,7 +25,7 @@ export default function Home() {
         if (showProtocol.protocol == 'https:') {
           console.log('lo lograste onichan');
           //console.log(read_pem());
-          //Router.push('/listTrustStore')
+          Router.push('/validateCert')
 
         }else{
           alert('Protocolo inseguro: ', showProtocol.protocol );

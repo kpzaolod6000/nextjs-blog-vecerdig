@@ -1437,6 +1437,11 @@
     "has" "^1.0.3"
     "has-symbols" "^1.0.3"
 
+"get-ssl-certificate@^2.3.3":
+  "integrity" "sha512-aKYXS1S5+2IYw4W5+lKC/M+lvaNYPe0PhnQ144NWARcBg35H3ZvyVZ6y0LNGtiAxggFBHeO7LaVGO4bgHK4g1Q=="
+  "resolved" "https://registry.npmjs.org/get-ssl-certificate/-/get-ssl-certificate-2.3.3.tgz"
+  "version" "2.3.3"
+
 "get-stream@^3.0.0":
   "integrity" "sha512-GlhdIUuVakc8SJ6kK0zAFbiGzRFzNnY4jUuEbV9UROo4Y+0Ny4fjvcZFVTeDA4odpFyOQzaw6hXukJSq/f28sQ=="
   "resolved" "https://registry.npmjs.org/get-stream/-/get-stream-3.0.0.tgz"

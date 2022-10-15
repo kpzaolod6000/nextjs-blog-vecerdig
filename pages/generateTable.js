@@ -1,7 +1,5 @@
 import { useState , useEffect } from 'react'
 
-import axios from 'axios'
-
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import stylesTrust from '../styles/Trust.module.css'
@@ -48,7 +46,7 @@ const Tablemodels = ({data}) => {
                         <tr>
                             <th className={stylesTrust.col_1}>ID</th>
                             <th className={stylesTrust.col_1}>Nro de Serial</th>
-                            <th className={stylesTrust.col_1}>Nombres<p className={stylesTrust._p}>Subject-Issuer</p></th>
+                            <th className={stylesTrust.col_1}>Nombres<p className={stylesTrust._p}>Nombre Comun</p></th>
                             <th className={stylesTrust.col_1}>Validez<p className={stylesTrust._p}>Desde-Hasta</p></th>
                             <th className={stylesTrust.col_1}>Llave pública<p className={stylesTrust._p}>Algoritmo-Tamaño</p></th>
                             <th className={stylesTrust.col_1}>Uso de la llave</th>
@@ -63,7 +61,7 @@ const Tablemodels = ({data}) => {
                                 <tr key={post.id}>
                                     <td className={stylesTrust.col_2}>{post.id}</td>
                                     <td className={stylesTrust.col_2}>{post.nmSerial}</td>
-                                    <td className={stylesTrust.col_2}>{post.subject} - {post.issuer}</td>
+                                    <td className={stylesTrust.col_2}>{post.issuer}</td>
                                     <td className={stylesTrust.col_2}>{post.validFrom} - {post.validTo}</td>
                                     <td className={stylesTrust.col_2}>{post.asymKey} - {post.nmBits} <p className={stylesTrust._p}>{post.typeKey}</p></td>
                                     <td className={stylesTrust.col_2}>{post.usePublicKey}</td>
@@ -126,19 +124,12 @@ export const getServerSideProps = async (context) => {
         //x509 to object
         result = x509list.toLegacyObject()
 
-        // read subject's data
-        const inToremove = "O="
-        const listNameSubject = result.subject
-        let nameSubject = ""
-        listNameSubject.split(/\n/).forEach(function(listname){
-            
-            if (listname.includes(inToremove)) {
-                nameSubject = listname.replaceAll(inToremove, "");
-            }
-        });
+        //nombre comun
+        const inToremove = "CN="
 
         // read issuer's data
         const listNameIssuer = result.issuer
+        //console.log(listNameIssuer)
         
         let nameIssuer = ""
         listNameIssuer.split(/\n/).forEach(function(listname){
@@ -164,7 +155,6 @@ export const getServerSideProps = async (context) => {
         id++
         return {
             id: id,
-            subject: nameSubject,
             issuer: nameIssuer,
             nmSerial: result.serialNumber,
             validFrom: result.valid_from,

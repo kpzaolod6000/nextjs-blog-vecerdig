@@ -87,9 +87,12 @@ const Tablemodels = ({data}) => {
     );
 };
 
+//se cambio el getstaticprops por getServerSideProps para recibir parametros
+export const getServerSideProps = async (context) => {
 
-export const getStaticProps = async () => {
-    const postsDirectory = path.join(process.cwd(),'public', 'trustStore','MozillaRootsPEM.txt')
+    console.log(context.query)
+
+    const postsDirectory = path.join(process.cwd(),'public', 'trustStore', context.query.contentPEM)
     let filenames = await fs.readFileSync(postsDirectory)
     let certificateCiphered = []
 

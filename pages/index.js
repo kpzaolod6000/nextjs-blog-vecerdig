@@ -134,7 +134,15 @@ export default function Home() {
 
 
         <footer className={styles.footer}>
-          <Link href="/generateTable">
+          <Link
+                href={{
+                pathname: "/generateTable",
+                query: {
+                  id: 1,
+                  contentPEM: "MozillaRootsPEM.txt"
+              }
+          }}
+          >
             <a className = {styles.text_link} >
               Ver Mozila Trust Store
               <span className={styles.logo}>
@@ -143,7 +151,15 @@ export default function Home() {
               </a>
           </Link>
 
-          <Link href="/">
+          <Link
+                href={{
+                pathname: "/generateTable",
+                query: {
+                  id: 2,
+                  contentPEM: "EdgeRootsPEM.txt"
+              }
+          }}
+          >
             <a className = {styles.text_link} >
               Ver Microsft Trust Store
               <span className={styles.logo}>
@@ -152,7 +168,15 @@ export default function Home() {
               </a>
           </Link>
           
-          <Link href="/">
+          <Link
+                href={{
+                pathname: "/generateTable",
+                query: {
+                  id: 2,
+                  contentPEM: "ChromeRootsPEM.txt"
+              }
+          }}
+          >
             <a className = {styles.text_link} >
               Ver Google Truste Store
               <span className={styles.logo}>

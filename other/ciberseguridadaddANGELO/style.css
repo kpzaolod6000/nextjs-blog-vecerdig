@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;600&display=swap');
+/*font-family: 'Inconsolata', monospace;*/
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.main-cointainer{
+	height: 550px;
+	width: 100%;
+	position: relative;
+	/* border: 1px solid red; */
+	
+}
+
+.title{
+	font-family: 'Inconsolata', monospace;
+	font-size: 18px;
+	text-align: center;
+	padding: 12px 0;
+
+}
+
+.main__form{
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	
+	font-size: 21px;
+	padding: 10px;
+	margin: 20px;
+	¿
+	
+
+}
+
+input[type=url]{
+	width: 400px;
+	text-align: center;
+
+}
+
+input[type=button],[type=file]{
+	font-family: 'Inconsolata', monospace;
+	font-size: 15px;
+}
+input[type=file]{
+	color: transparent;
+}
+/*
+.serach__results{
+	
+	padding: 10px;
+	margin: 20px;
+	display: flex;
+	justify-content: space-around;
+
+
+}
+
+
+
+
+*/
+.results{
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+	/* flex-direction: row; */
+}
+.serach__results__browsers__dot{
+	height: 33px;
+	width: 33px;
+	background-color: #EAE6E6;
+	/* color: #FFF; */
+	border-radius: 50%;
+	display: inline-block;
+	margin: 1px;
+}
+
+.serach__results__browsers{
+	display: flex;
+	justify-content: space-evenly;
+	align-content: space-around;
+	flex-grow: 2;
+}
+.seracl__results__urls{
+	flex-grow: 1;
+
+}
+
+.button-clear{
+	width: 100%;
+	text-align: center;
+}
+
+.button-clear__all{
+	font-family: 'Inconsolata', monospace;
+	font-size: 15px;
+	letter-spacing: 1.2px;
+	width: 300px;
+}
+
+.attribution{
+	display: flex;
+	justify-content: space-evenly;
+}

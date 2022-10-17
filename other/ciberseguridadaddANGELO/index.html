@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Document</title>
+</head>
+<body>
+	
+	<main class="main-cointainer">
+		<h2 class="title">
+			Digital Certicates Trust Verifer
+		</h2>
+
+		<div>
+			<form action="" class="main__form">
+				<input type="url" name="url" placeholder="[ ingresar URL a verificar ]" id="ingreso_url">
+				<input type="button" name="verificar" value="Verificar" id="verificar">
+				<input type="file" name="archivos">
+			</form>
+		</div>
+		
+
+		<div class="serach__results" id="search_results">
+			
+
+			
+			<div class="results">
+
+				<div class="seracl__results__urls">
+					
+					<p>www.unsa.edu.pe</p>
+				</div>
+				<div class="serach__results__browsers">
+					<div >
+						<p>Microsft Egde</p>
+						<span class="serach__results__browsers__dot"></span>
+						<span class="serach__results__browsers__dot"></span>
+						<span class="serach__results__browsers__dot"></span>
+					</div>
+					<div >
+						<p>Google Chrome</p>
+						<span class="serach__results__browsers__dot"></span>
+						<span class="serach__results__browsers__dot"></span>
+						<span class="serach__results__browsers__dot"></span>
+					</div>
+					<div>
+						<p>Mozila Firefox</p>
+						<span class="serach__results__browsers__dot"></span>
+						<span class="serach__results__browsers__dot"></span>
+						<span class="serach__results__browsers__dot"></span>
+	
+					</div>
+				</div> 
+			</div>
+			
+			
+		</div>	
+
+		<div class="button-clear">
+			<button type="button" class="button-clear__all" onclick="clearDivs()">
+				Limpiar todo
+			</button>
+		</div>	
+
+
+	</main>
+
+	<footer class="attribution">
+		    <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Ver Mozila Trust Store</a>
+		    <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Ver Microsft Trust Store</a>
+		    <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Ver Google Truste Store</a>
+	</footer>
+
+	<script src="index.js" type="module"></script>
+</body>
+</html>

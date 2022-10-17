@@ -1,3 +1,6 @@
+import fs from 'fs'
+import path from 'path'
+
 import verify from '../verifyIsTrustStore';
 
 export default function handler(req, res) {
@@ -10,16 +13,12 @@ export default function handler(req, res) {
     };
 
     let list = new Set();
+
     const request = https.request(options, async function(res) {
         let cert = res.connection.getPeerCertificate(true);
         
         do {
             list.add(cert);
-            //console.log("subject", cert.subject);
-            //console.log("issuer", cert.issuer);
-            //console.log("valid_from", cert.valid_from);
-            //console.log("valid_to", cert.valid_to);
-            //console.log(cert.issuerCertificate)
             cert = cert.issuerCertificate;
         } while (cert && typeof cert === "object" && !list.has(cert));
 
@@ -76,19 +75,21 @@ export default function handler(req, res) {
             console.log("No se encuentra en los certificados del Trust Store de Mozilla")
         }
 
-
+        const trustDirectory = path.join(process.cwd(),'pages', 'data','validate.json' )
+        const isvalid = {
+            isMozilla: isMozilla,
+            isEdge: isEdge,
+            isChrome: isChrome,
+        }
+        fs.writeFileSync(trustDirectory, JSON.stringify(isvalid))
         
         list.clear();
-        //console.log(list)
-        //console.log(list.toString('utf8'))
         // res.on('data', data => {
         //     //objet = {data: data.toString('utf8')}
         //     //console.log(data.toString('utf8'));
         // });
     });
-    //console.log(objet)
-    
     
     request.end();
-    res.status(200).json({ isMozilla: "hola"})
+    res.status(200).json({ success: true })
 }

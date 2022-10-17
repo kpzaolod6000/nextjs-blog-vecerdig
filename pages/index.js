@@ -1,6 +1,5 @@
 import { useState , useEffect } from 'react'
 import Head from 'next/head'
-import axios from 'axios'
 import $ from "jquery"
 import Image from 'next/image'
 import Link from "next/link";
@@ -10,8 +9,6 @@ import styles from '../styles/Home.module.css'
 import validate_url from './validate_url'
 import validate_protocol from './validate_protocol'
 import validate_TC from './validate_chainTrust'
-//  import validate_Cert from './validateCert'
-
 
 export default function Home() {
 
@@ -51,12 +48,16 @@ export default function Home() {
             const result = await response.json();
             console.log('result is: ', JSON.stringify(result, null, 4));
       
-            const alertPlaceholder = document.getElementById('AlertExito')
+            const alertPlaceholder = document.getElementById('AlertExito')  
             const alert = (message, type) => {
               const wrapper = document.createElement('div')
               wrapper.innerHTML = [
                 `<div id = "alertsucces" class="alert alert-${type} alert-dismissible" role="alert">`,
-                `   <div>${message}</div>`,
+                '<div>',
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Success:">',
+                '  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>',
+                '</svg>',
+                `   ${message}</div>`,
                 '   <button id = "buttonalert" type="button" class="btn-close" data-coreui-dismiss="alert" aria-label="Close"></button>',
                 '</div>'
               ].join('')

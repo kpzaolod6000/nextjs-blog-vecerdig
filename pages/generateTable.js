@@ -90,7 +90,7 @@ export const getServerSideProps = async (context) => {
 
     console.log(context.query)
 
-    const postsDirectory = path.join(process.cwd(),'public', 'trustStore', context.query.contentPEM)
+    const postsDirectory = path.join(process.cwd(),'public', 'trustStore', context.query.contentPEM+'.txt')
     let filenames = await fs.readFileSync(postsDirectory)
     let certificateCiphered = []
 
@@ -169,6 +169,10 @@ export const getServerSideProps = async (context) => {
         }
         //certificateDeciphered.push(result)
     });
+
+    
+    const trustDirectory = path.join(process.cwd(),'pages', 'data',context.query.contentPEM + '.json' )
+    fs.writeFileSync(trustDirectory, JSON.stringify(await Promise.all(data)))
     return {
         props: {
             data: await Promise.all(data),

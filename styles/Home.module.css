@@ -203,6 +203,16 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  
+}
+
+.textcolor{
+  text-decoration: none;
+  color:#EAE6E6
+}
+.textcolor:hover{
+  color: white;
+  text-shadow: 0 0 3px white;
 }
 
 /* a {
@@ -266,7 +276,14 @@
 
 /*link text underline*/
 
+.text_link{
+  text-decoration: none;
+  color:#EAE6E6
+}
+
 .text_link:hover {
+  color: white;
+  text-shadow: 0 0 3px white;
   text-decoration: underline;
 }
 

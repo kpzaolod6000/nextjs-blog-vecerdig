@@ -9,11 +9,26 @@ import styles from '../styles/Home.module.css'
 import validate_url from './validate_url'
 import validate_protocol from './validate_protocol'
 import validate_TC from './validate_chainTrust'
+import create_Div from './createDivTrust'
+import create_Div2 from './createDivTrus2'
 
 export default function Home() {
 
   //const [data, setData] = useState({data: []});
   const [isLoading, setIsLoading] = useState(false);
+  let [isExist, setExist]  = useState(false);
+
+  const handleClickRemove = (e,id) => {
+    e.preventDefault()
+
+    if(isExist){
+      let element = document.getElementById(id);
+      //element.remove();
+      element.innerHTML = "";
+      setExist(false)
+      console.log("ELIMINADO")
+    }
+  }
 
   const handleClick = async (e, path) => {
     e.preventDefault()
@@ -67,7 +82,25 @@ export default function Home() {
         
             if (result){
               alert('Certificado Adquirido', 'success')
-              const isValid = validate_TC(showProtocol.host)
+              await validate_TC(showProtocol.host)
+              
+              setTimeout(async () => {
+                const url_Val = 'http://localhost:3000/api/getValidates'
+                try {
+                  const res_Val = await fetch(url_Val ,{
+                    method: 'POST',
+                    headers: {
+                      Accept: 'application/json',
+                    },
+                  });
+                  const validate = await res_Val.json();
+                  create_Div(showProtocol.host,validate) // crea los span 
+                  setExist(true)
+                  
+
+                } catch (err) {
+                  console.log(err.message);
+                }}, 2000);
             }
             else alert('No existe el certificado', 'warning')
             
@@ -84,30 +117,30 @@ export default function Home() {
           } finally {
             setIsLoading(false);
           }
-          //const extCert = validate_Cert(showProtocol.host)
-          //console.log(extCert)
-          //console.log(posts)
-
-          //console.log(read_pem());
-        
           //Router.push('/validateCert')
           
 
         }else{
           alert('Protocolo inseguro: ', showProtocol.protocol );
+          create_Div2(showProtocol.host)
         }
-        //if (isLoading) return <p>Loading...</p>
-        //if (data) alert('datos completos')
-      
-        //mostrar codigo o los certificados
         
       }else{
         alert('El dato ingresado no corresponde a una URL');
       }
+    }else if (path === "/Archivos"){
+      console.log("Archivos")
+      // try {
+      //   const response = await fetch("./public/exampleTxt.txt").then(function(res){
+      //                   return res.text();
+      //             }).then(function (data) {
+      //               console.log(data);
+      //             })  
+      // } catch (error) {
+      //   console.log(error)
+      // }
+      
     }
-    // if (path === "/posts") {
-    //   console.log("I clicked on the Posts Page");
-    // }
   };
 
   return (
@@ -128,13 +161,12 @@ export default function Home() {
           <div>
             <form className={styles.main_form}>
               <div className={styles.main_form_inputs}>
-                {/* <input className={styles.input__url} type="url" name="url" placeholder="[ ingresar URL a verificar ]"/> */}
                 <input className={styles.controls} type="url" name="linkUrl" id="linkUrl" placeholder="[ ingresar URL a verificar ]"></input>
 
                 <div className={styles.main_button} id="main_button_veri">
                   <div id="circle"></div>
                   <Link href="">
-                    <a id="verificar" onClick={(e) => handleClick(e, "/verificar")}  className={styles.textcolor}>Verificar</a>
+                    <a onClick={(e) => handleClick(e, "/verificar")}  className={styles.textcolor}>Verificar</a>
                   </Link>
                   {/* <a href="#">Verificar</a> */}
                 </div>
@@ -142,58 +174,23 @@ export default function Home() {
                 <div className={styles.main_button} id="main_button_veri">
                   <div id="circle"></div>
                   <Link href="/">
+                    {/* <button></button> */}
                     <a onClick={(e) => handleClick(e, "/Archivos")} className={styles.textcolor} >Archivos</a>
                   </Link>
-                  {/* <input className={styles.input__file} type="file" name="archivos"/>  */}
-                  {/* <button type="submit">Submit</button> */}
                 </div>
-
-                {/* <input className={styles.input__button} type="button" name="verificar" value="Verificar"/> */}
-
-                {/* <input className={styles.input__file} type="file" name="archivos"/>  */}
               </div>
               
             </form>
           </div>
 
     
-          <div className={styles.card}>
-            <div className={styles.card_url}>
-              <p >www.unsa.edu.pe</p>
-            </div>
-            <div className={styles.search__results__browsers}>
-              <p>Microsft Egde</p>
-              <div>
-                <span className={styles.search__results__browsers__dot}></span>
-                <span className={styles.search__results__browsers__dot}></span>
-                <span className={styles.search__results__browsers__dot}></span>
-              </div>
-             
-            </div>
-            <div className={styles.search__results__browsers}>
-              <p>Google Chrome</p>
-              <div>
-                <span className={styles.search__results__browsers__dot}></span>
-                <span className={styles.search__results__browsers__dot}></span>
-                <span className={styles.search__results__browsers__dot}></span>
-              </div>
-            </div>
-            <div className={styles.search__results__browsers}>
-              <p>Mozila Firefox</p>
-              <div>
-                <span className={styles.search__results__browsers__dot}></span>
-                <span className={styles.search__results__browsers__dot}></span>
-                <span className={styles.search__results__browsers__dot}></span>
-              </div>
-              
-            </div>
-
-          </div>
+          <div id = "trust_content"></div>
 
           <div className={styles.main_button} id="main_button_veri">
             <div id="circle"></div>
-            {/* <input className={styles.input__file} type="file" name="archivos"/>  */}
-            <a href="#" className={styles.textcolor} >Limpiar Todo</a>
+            <Link href="/">
+              <a onClick={(e) => handleClickRemove(e, "trust_content")} className={styles.textcolor} >Limpiar Todo</a>
+            </Link>
           </div>
           {/* <div className={styles.button_clear}>
             <button type="button" class="button-clear__all">

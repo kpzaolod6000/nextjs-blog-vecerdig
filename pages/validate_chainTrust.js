@@ -21,5 +21,4 @@ export default async function validateChainTrust(host){
     } catch (err) {
         console.log(err.message);
     }
-      return 0;
 }

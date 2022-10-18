@@ -3,7 +3,7 @@ import path from 'path'
 
 import verify from '../verifyIsTrustStore';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     
     console.log(req.body)
     var https = require('https');
@@ -47,7 +47,7 @@ export default function handler(req, res) {
             cont++
         }
         //console.log(rootTrust)
-        const rootIssuer = JSON.parse(JSON.stringify(rootTrust.issuer))
+        const rootIssuer = await JSON.parse(JSON.stringify(rootTrust.issuer))
         const rootNroSerial = rootTrust.serialNumber
         const rootFingerprint = rootTrust.fingerprint
 
@@ -72,10 +72,10 @@ export default function handler(req, res) {
         if (isChrome) {
             console.log("El trust root se encuentra en los certificados del Trust Store de Google Chrome")
         }else{
-            console.log("No se encuentra en los certificados del Trust Store de Mozilla")
+            console.log("No se encuentra en los certificados del Trust Store de Google Chrome")
         }
 
-        const trustDirectory = path.join(process.cwd(),'pages', 'data','validate.json' )
+        const trustDirectory = await path.join(process.cwd(),'pages', 'data','validate.json' )
         const isvalid = {
             isMozilla: isMozilla,
             isEdge: isEdge,
@@ -91,5 +91,6 @@ export default function handler(req, res) {
     });
     
     request.end();
+    
     res.status(200).json({ success: true })
 }

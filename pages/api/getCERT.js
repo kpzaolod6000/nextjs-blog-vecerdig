@@ -10,5 +10,5 @@ export default function handler(req, res) {
       //console.log(certificate.issuer.CN)
   })
 
-  console.log("devolveindo" +  getCertificate)
+  console.log("devolviendo" +  getCertificate)
 }

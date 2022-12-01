@@ -4,11 +4,9 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import stylesTrust from '../styles/Trust.module.css'
 
-import fs from 'fs'
-import {X509Certificate} from 'crypto'
-import path from 'path'
 import Pagination from '../components/paginationTrust'
 import { paginate } from './paginate'
+import isTrustRoots from '../public/trustStore/trusModel'
 
 const Tablemodels = ({data,name}) => {
 
@@ -92,90 +90,36 @@ const Tablemodels = ({data,name}) => {
 export const getServerSideProps = async (context) => {
 
     console.log(context.query)
-
-    const postsDirectory = path.join(process.cwd(),'public', 'trustStore', context.query.contentPEM+'.txt')
-    let filenames = await fs.readFileSync(postsDirectory)
-    let certificateCiphered = []
-
-    const jsonDirectory = path.join(process.cwd(),'pages', 'data','oid.json')
-    const fileJson = await fs.readFileSync(jsonDirectory)
-    const oidObject = JSON.parse(fileJson);
-    
-    
-    filenames.toString().split(/\n-----END CERTIFICATE-----/).forEach(function(certificate){
-    // do something here with each line
-        const certificateCipher = certificate + "\n-----END CERTIFICATE-----"
-        if(certificateCipher != "\n-----END CERTIFICATE-----")
-            certificateCiphered.push(certificateCipher);
-    });
-    
-    let x509list = ""
-    let result = ""
-    let typePublickey = ""
-    let asymmetricKey = ""
-    
-    let id = 0
+    let certificateCiphered = isTrustRoots(context.query.contentPEM);
+    let id = 0;
 
     const data = certificateCiphered.map(async (cert) => {
         
-        // read X509 CERTIFICATE
-        x509list = new X509Certificate(cert)
-        //console.log(x509list.publicKey.asymmetricKeyDetails)
-        typePublickey = x509list.publicKey.type
-        asymmetricKey = x509list.publicKey.asymmetricKeyType
-
-        //x509 to object
-        result = x509list.toLegacyObject()
-
-        //nombre comun
-        const inToremove = "CN="
-
-        // read issuer's data
-        const listNameIssuer = result.issuer
-        //console.log(listNameIssuer)
         
-        let nameIssuer = ""
-        listNameIssuer.split(/\n/).forEach(function(listname){
-            if (listname.includes(inToremove)) {
-                nameIssuer = listname.replaceAll(inToremove, "");
-            }
-        });
-
-        //compare asymmetric key for return OIDs
-        let useKey = ""
-        let oidKey = ""
-        oidObject.map(async (oid) =>{
-
-            if(asymmetricKey.toUpperCase() == oid.Algorithm){
-                useKey = oid.Type
-                oidKey = oid.OID
-            }
-        })
-        //console.log(useKey)
-        //console.log(oidKey)
-
-        //console.log(nameIssuer)
+        // console.log(cert);
+        // console.log(nameIssuer)
+        
         id++
         return {
-            id: id,
-            issuer: nameIssuer,
-            nmSerial: result.serialNumber,
-            validFrom: result.valid_from,
-            validTo: result.valid_to,
-            certSha: result.fingerprint,
-            asymKey: asymmetricKey,
-            usePublicKey: useKey,
-            oidPublicKey: oidKey,
-            nmBits: result.bits,
-            typeKey: typePublickey,
-            pubKey: toString(result.pubkey),
+            id: cert.id,
+            issuer: cert.issuer,
+            nmSerial: cert.nmSerial,
+            validFrom: cert.validFrom,
+            validTo: cert.validTo,
+            certSha: cert.certSha,
+            asymKey: cert.asymKey,
+            usePublicKey: cert.usePublicKey,
+            oidPublicKey: cert.oidPublicKey,
+            nmBits: cert.nmBits,
+            typeKey: cert.typeKey,
+            pubKey: cert.pubKey,
         }
         //certificateDeciphered.push(result)
     });
 
     
-    const trustDirectory = path.join(process.cwd(),'pages', 'data',context.query.contentPEM + '.json' )
-    fs.writeFileSync(trustDirectory, JSON.stringify(await Promise.all(data)))
+    // const trustDirectory = path.join(process.cwd(),'pages', 'data',context.query.contentPEM + '.json' )
+    // fs.writeFileSync(trustDirectory, JSON.stringify(await Promise.all(data)))
     return {
         props: {
             data: await Promise.all(data),

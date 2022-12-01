@@ -66,7 +66,7 @@ export default function create_Div(url_name,validate){
     //// google Chrome
     const google = document.createElement('div')
     const urlgoogle = document.createElement('p')
-    urlgoogle.textContent = 'Google Chrome' 
+    urlgoogle.textContent = 'Google Chrome'
 
     google.appendChild(urlgoogle)
     createSpan(google,validate.isChrome)
@@ -79,7 +79,6 @@ export default function create_Div(url_name,validate){
 
     firefox.appendChild(urlfirefox)
     createSpan(firefox,validate.isMozilla)
-
 
 
     navegadores.appendChild(micro)

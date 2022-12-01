@@ -11,6 +11,7 @@ import validate_protocol from './validate_protocol'
 import validate_TC from './validate_chainTrust'
 import create_Div from './createDivTrust'
 import create_Div2 from './createDivTrus2'
+import { isValid } from '../public/trustStore/setValidate';
 
 export default function Home() {
 
@@ -82,7 +83,7 @@ export default function Home() {
         
             if (result){
               alert('Certificado Adquirido', 'success')
-              await validate_TC(showProtocol.host)
+              await validate_TC(showProtocol.host) //consulta a una api y establece la validación
               
               setTimeout(async () => {
                 const url_Val = 'http://localhost:3000/api/getValidates'

@@ -1,9 +1,8 @@
-import fs from 'fs'
-import path from 'path'
+import { setgetValidateBrowser } from "../../public/trustStore/setValidate";
+
 export default async function handler(req, res) {
-    const jsonDirectory = await path.join(process.cwd(),'pages', 'data','validate.json')
-    const fileJson = await fs.readFileSync(jsonDirectory)
-    const validateObj = await JSON.parse(fileJson);
+    const validateObj = setgetValidateBrowser("get");
+    console.log(validateObj);
     res.status(200).json({ isMozilla: validateObj.isMozilla, isEdge: validateObj.isEdge, isChrome: validateObj.isChrome })
 }
   

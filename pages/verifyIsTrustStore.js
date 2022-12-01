@@ -1,11 +1,9 @@
-import fs from 'fs'
-import path from 'path'
+import isTrustRoots from '../public/trustStore/trusModel'
 
 export default function verify(dataJson,rootIssuer,rootNroSerial,rootFingerprint) {
-    const jsonDirectory = path.join(process.cwd(),'pages', 'data',dataJson)
-    const file = fs.readFileSync(jsonDirectory)
-    const jsonObject = JSON.parse(file);
 
+    const jsonObject = isTrustRoots(dataJson);
+    
     let isStore = false
     jsonObject.map((cert) =>{
         if(rootIssuer.CN == cert.issuer && rootNroSerial == cert.nmSerial && rootFingerprint == cert.certSha){

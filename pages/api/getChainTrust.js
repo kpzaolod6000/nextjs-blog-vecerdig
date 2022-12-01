@@ -1,6 +1,4 @@
-import fs from 'fs'
-import path from 'path'
-
+import { setgetValidateBrowser } from '../../public/trustStore/setValidate';
 import verify from '../verifyIsTrustStore';
 
 export default async function handler(req, res) {
@@ -33,18 +31,18 @@ export default async function handler(req, res) {
             console.log("==========================================================================")
         }
         console.log("Trust Chain")
-        const tam = list.size - 1
+        const tam = list.size - 1;
         //const tam = 2
-        let cont = 0
+        let cont = 0;
         let rootTrust;
         for (const item of list.values()) {
-            const objSubject = JSON.parse(JSON.stringify(item.subject))
-            const objIssuer = JSON.parse(JSON.stringify(item.issuer))
-            console.log(objSubject.CN, "=========>",objIssuer.CN)
+            const objSubject = JSON.parse(JSON.stringify(item.subject));
+            const objIssuer = JSON.parse(JSON.stringify(item.issuer));
+            console.log(objSubject.CN, "=========>",objIssuer.CN);
             if (tam == cont) {
-                rootTrust = item
+                rootTrust = item;
             }
-            cont++
+            cont++;
         }
         //console.log(rootTrust)
         const rootIssuer = await JSON.parse(JSON.stringify(rootTrust.issuer))
@@ -53,9 +51,9 @@ export default async function handler(req, res) {
 
 
         //ver si esta en el Trust Store de Mozilla
-        const isMozilla = verify('MozillaRootsPEM.json',rootIssuer,rootNroSerial,rootFingerprint)
-        const isEdge = verify('EdgeRootsPEM.json',rootIssuer,rootNroSerial,rootFingerprint)
-        const isChrome = verify('ChromeRootsPEM.json',rootIssuer,rootNroSerial,rootFingerprint)
+        const isMozilla = verify('MozillaRootsPEM',rootIssuer,rootNroSerial,rootFingerprint)
+        const isEdge = verify('EdgeRootsPEM',rootIssuer,rootNroSerial,rootFingerprint)
+        const isChrome = verify('ChromeRootsPEM',rootIssuer,rootNroSerial,rootFingerprint)
         
         console.log("\nVer si esta en los Trust Stores de Mozilla,Edge y Chrome\n")
 
@@ -75,13 +73,7 @@ export default async function handler(req, res) {
             console.log("No se encuentra en los certificados del Trust Store de Google Chrome")
         }
 
-        const trustDirectory = await path.join(process.cwd(),'pages', 'data','validate.json' )
-        const isvalid = {
-            isMozilla: isMozilla,
-            isEdge: isEdge,
-            isChrome: isChrome,
-        }
-        fs.writeFileSync(trustDirectory, JSON.stringify(isvalid))
+        setgetValidateBrowser("set",isMozilla,isChrome,isEdge);
         
         list.clear();
         // res.on('data', data => {

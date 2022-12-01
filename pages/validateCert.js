@@ -35,29 +35,30 @@
 
 // }
 
-var https = require('https');
+/** Comentado*/
+// var https = require('https');
 
-var options = {
-    host: 'google.com',
-    port: 443,
-    method: 'GET'
-};
+// var options = {
+//     host: 'google.com',
+//     port: 443,
+//     method: 'GET'
+// };
 
-const request = https.request(options, function(res) {
-    let cert = res.connection.getPeerCertificate(true);
-    let list = new Set(); 
-    do {
-        list.add(cert);
-        console.log("subject", cert.subject);
-        console.log("issuer", cert.issuer);
-        console.log("valid_from", cert.valid_from);
-        console.log("valid_to", cert.valid_to);
-        cert = cert.issuerCertificate;
-    } while (cert && typeof cert === "object" && !list.has(cert));
+// const request = https.request(options, function(res) {
+//     let cert = res.connection.getPeerCertificate(true);
+//     let list = new Set(); 
+//     do {
+//         list.add(cert);
+//         console.log("subject", cert.subject);
+//         console.log("issuer", cert.issuer);
+//         console.log("valid_from", cert.valid_from);
+//         console.log("valid_to", cert.valid_to);
+//         cert = cert.issuerCertificate;
+//     } while (cert && typeof cert === "object" && !list.has(cert));
 
-    res.on('data', data => {
-        //console.log(data.toString('utf8'));
-    });
-});
+//     res.on('data', data => {
+//         //console.log(data.toString('utf8'));
+//     });
+// });
 
-request.end();
+// request.end();

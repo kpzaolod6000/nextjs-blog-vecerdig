@@ -1,0 +1,36 @@
+.modalContainer{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.modal_content{
+    background-color: #282b28;
+    margin: auto;
+    padding: 25px;
+    border: 1px solid #6927a7;
+    width: 60%;
+}
+
+.close{
+    color: chartreuse;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#close::hover, #close:focus{
+    color: tomato;
+    text-decoration: none;
+}
+
+.title{
+    justify-content: center;
+}

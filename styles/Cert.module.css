@@ -1,0 +1,20 @@
+.content_cert{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+    border-bottom: 3px solid #900C3F ;
+ 
+}
+
+.content_cert_imgCert{
+    height: 200px;
+    width: 200px;
+    margin-right: 50px;
+}
+
+.content_cert_data{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -37,13 +37,31 @@ export default async function handler(req, res) {
         //const tam = 2
         let cont = 0
         let rootTrust;
+        var certs = {
+            subject: [],
+            issuer:[],
+            valid_from:[],
+            valid_to:[],
+            fingerprint:[]
+
+         };
+
+
         for (const item of list.values()) {
             const objSubject = JSON.parse(JSON.stringify(item.subject))
             const objIssuer = JSON.parse(JSON.stringify(item.issuer))
+            const objvalid_from = JSON.parse(JSON.stringify(item.valid_from))
+            const objvalid_to = JSON.parse(JSON.stringify(item.valid_to))
+            const objfingerprint = JSON.parse(JSON.stringify(item.fingerprint))
             console.log(objSubject.CN, "=========>",objIssuer.CN)
             if (tam == cont) {
                 rootTrust = item
             }
+            certs.subject.push(objSubject);
+            certs.issuer.push(objIssuer);
+            certs.valid_from.push(objvalid_from);
+            certs.valid_to.push(objvalid_to);
+            certs.fingerprint.push(objfingerprint);
             cont++
         }
         //console.log(rootTrust)
@@ -76,13 +94,15 @@ export default async function handler(req, res) {
         }
 
         const trustDirectory = await path.join(process.cwd(),'pages', 'data','validate.json' )
+        const certsDirectory = await path.join(process.cwd(),'pages', 'resources',req.body+'.json' )
         const isvalid = {
             isMozilla: isMozilla,
             isEdge: isEdge,
             isChrome: isChrome,
         }
         fs.writeFileSync(trustDirectory, JSON.stringify(isvalid))
-        
+        fs.writeFileSync(certsDirectory, JSON.stringify(certs));
+
         list.clear();
         // res.on('data', data => {
         //     //objet = {data: data.toString('utf8')}

@@ -242,7 +242,25 @@
   
 }
 
+.main_button_show {
+  display: inline-flex;
+  height: 35px;
+  width: 80px;
+  border: 2px solid #BFC0C0;
+  margin: 5px 10px 5px 10px;
+  color: #BFC0C0;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: .8em;
+  letter-spacing: 1.5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  
+}
+
 .textcolor{
+  cursor: pointer;
   text-decoration: none;
   color:#EAE6E6
 }
@@ -270,6 +288,19 @@
   transition: all .45s ease-Out;
 }
 
+#main_button_veri_modal{
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+
+#main_button_veri_modal a{
+  position: relative;
+  transition: all .45s ease-Out;
+}
+
+
 #circle {
   width: 0%;
   height: 0%;
@@ -295,6 +326,17 @@
   color: #2D3142;
 }
 
+#main_button_veri_modal:hover #circle {
+  width: 200%;
+  height: 500%;
+  opacity: 1;
+  top: -70px;
+  left: -70px;
+}
+
+#main_button_veri_modal:hover a {
+  color: #2D3142;
+}
 /* Input of form*/
 
 .controls {
@@ -343,4 +385,8 @@
   .logo img {
     filter: invert(1);
   }
+}
+
+.input_value{
+  display: none;
 }
